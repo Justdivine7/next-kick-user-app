@@ -1,0 +1,65 @@
+name: next_kick
+description: "Be the pro version of you."
+
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  image_picker: ^1.1.2
+  flutter_local_notifications: ^19.5.0
+  flutter_launcher_icons: ^0.14.4
+  flutter_screenutil: ^5.9.3
+  get_storage: ^2.1.1
+  get_it: ^8.2.0
+  flutter_bloc: ^9.1.1
+  flutter_secure_storage: ^9.2.4
+  dio: ^5.9.0
+  equatable: ^2.0.7
+  fade_shimmer: ^2.4.0
+ 
+  http: ^1.5.0
+  webview_flutter: ^4.13.0
+
+  firebase_core: ^4.1.0
+  firebase_messaging: ^16.0.1
+ 
+  cached_network_image: ^3.4.1
+  device_info_plus: ^12.2.0
+  firebase_analytics: ^12.0.4
+  web_socket_channel: ^3.0.3
+  intl: ^0.20.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/
+    - assets/animations/
+
+  fonts:
+    - family: Lexend
+      fonts:
+        - asset: assets/fonts/Lexend-Bold.ttf
+        - asset: assets/fonts/Lexend-Light.ttf
+        - asset: assets/fonts/Lexend-ExtraBold.ttf
+        - asset: assets/fonts/Lexend-ExtraLight.ttf
+        - asset: assets/fonts/Lexend-Medium.ttf
+        - asset: assets/fonts/Lexend-Regular.ttf
+        - asset: assets/fonts/Lexend-SemiBold.ttf
+        - asset: assets/fonts/Lexend-Thin.ttf
+        - asset: assets/fonts/Lexend-Black.ttf

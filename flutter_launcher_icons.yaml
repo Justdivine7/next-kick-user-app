@@ -1,0 +1,15 @@
+# flutter pub run flutter_launcher_icons
+flutter_launcher_icons:
+  android: true
+  ios: true
+
+  # Default
+  image_path: "assets/images/notification-logo.png"
+
+  # ANDROID Adaptive Icon
+  adaptive_icon_foreground: "assets/images/notification-logo.png"
+  adaptive_icon_background: "#02273F"
+
+  # iOS
+  image_path_ios: "assets/images/notification-logo.png"
+  remove_alpha_ios: true

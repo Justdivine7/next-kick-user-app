@@ -1,0 +1,1 @@
+enum ShimmerEnum { drills, notification }

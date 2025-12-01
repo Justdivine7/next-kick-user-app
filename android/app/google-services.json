@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "561145950134",
+    "project_id": "ayomide-8323e",
+    "storage_bucket": "ayomide-8323e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561145950134:android:4ccaefd407109d4a9a9b17",
+        "android_client_info": {
+          "package_name": "com.nextkick.user"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDn7EfwRlHRe6RzayF_eR0sLn7qIrUYAD0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
