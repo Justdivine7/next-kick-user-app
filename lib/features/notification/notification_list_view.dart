@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:next_kick/common/colors/app_colors.dart';
+import 'package:next_kick/common/widgets/animated_pulsing_image.dart';
 import 'package:next_kick/common/widgets/app_back_button.dart';
 import 'package:next_kick/common/widgets/error_and_reload_widget.dart';
 import 'package:next_kick/common/widgets/next_kick_light_background.dart';
 import 'package:next_kick/common/widgets/pull_to_refresh.dart';
 import 'package:next_kick/common/widgets/shimmer_loading_overlay.dart';
+import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/data/dependency_injector/dependency_injector.dart';
 import 'package:next_kick/data/local_storage/app_local_storage_service.dart';
 import 'package:next_kick/features/notification/bloc/notification_bloc.dart';
@@ -32,9 +34,7 @@ class _NotificationListViewState extends State<NotificationListView> {
   void initState() {
     super.initState();
     _loadNotifications();
-   }
-
-   
+  }
 
   Future<void> _loadNotifications() async {
     final userType = _localStorage.getSavedUserType();
@@ -69,7 +69,11 @@ class _NotificationListViewState extends State<NotificationListView> {
               toolbarHeight: 40,
               leading: const AppBackButton(),
             ),
-            body: ShimmerLoadingOverlay(pageType: ShimmerEnum.notification),
+            body: Center(
+              child: AnimatedPulsingImage(
+                imagePath: AppImageStrings.nextKickDarkLogo,
+              ),
+            ),
           );
         }
         if (notificationState is NotificationError) {
@@ -137,24 +141,29 @@ class _NotificationListViewState extends State<NotificationListView> {
             body: PullToRefresh(
               onRefresh: _handleRefresh,
               child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+
                 child: Padding(
                   padding: EdgeInsets.all(16.w),
                   child: NextKickLightBackground(
                     image: AppImageStrings.lightSphere,
                     alignment: Alignment.center,
-                    child: Column(
+                    child: StaggeredColumn(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      staggerType: StaggerType.slide,
+                      slideAxis: SlideAxis.vertical,
                       children: [
                         SizedBox(height: 20.h),
-
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: notifications.length,
-                          itemBuilder: (context, index) {
-                            final notification = notifications[index];
-                            return NotificationCard(notification: notification);
-                          },
-                        ),
+                        for (final notification in notifications) ...[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 5,
+                            ),
+                            child: NotificationCard(notification: notification),
+                          ),
+                        ],
                       ],
                     ),
                   ),

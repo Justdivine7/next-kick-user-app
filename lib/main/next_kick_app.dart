@@ -34,17 +34,17 @@ class _NextKickAppState extends State<NextKickApp> {
   Future<void> _initialize() async {
     _notificationService = getIt<NotificationService>();
 
-    await _initNotifications(); // MUST be first
+    await _initNotifications();
     await _loadDeviceId();
     await _loadFCMToken();
   }
 
   Future<void> _loadDeviceId() async {
-    final deviceId = await getIt<NotificationService>().getDeviceId();
+    await getIt<NotificationService>().getDeviceId();
   }
 
   Future<void> _loadFCMToken() async {
-    final fcmToken = await FirebaseMessaging.instance.getToken();
+    await FirebaseMessaging.instance.getToken();
   }
 
   Future<void> _initNotifications() async {

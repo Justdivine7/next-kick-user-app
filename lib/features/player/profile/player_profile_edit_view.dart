@@ -10,6 +10,7 @@ import 'package:next_kick/common/widgets/app_select_image_icon.dart';
 import 'package:next_kick/common/widgets/app_toast/app_toast.dart';
 import 'package:next_kick/common/widgets/field_and_validator.dart';
 import 'package:next_kick/common/widgets/shimmer_loading_overlay.dart';
+import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/data/dependency_injector/dependency_injector.dart';
 import 'package:next_kick/data/local_storage/app_local_storage_service.dart';
 import 'package:next_kick/data/models/player_model.dart';
@@ -210,7 +211,11 @@ class _PlayerProfileEditViewState extends State<PlayerProfileEditView> {
       padding: EdgeInsets.all(20.w),
       child: Form(
         key: _formKey,
-        child: Column(
+        child: StaggeredColumn(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          staggerType: StaggerType.slide,
+          slideAxis: SlideAxis.vertical,
           children: [
             SizedBox(height: 75.h),
             _buildProfileImage(player),
@@ -262,7 +267,11 @@ class _PlayerProfileEditViewState extends State<PlayerProfileEditView> {
   }
 
   Widget _buildFormFields(PlayerModel player) {
-    return Column(
+    return StaggeredColumn(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      staggerType: StaggerType.slide,
+      slideAxis: SlideAxis.vertical,
       children: [
         FieldAndValidator(
           fieldName: AppTextStrings.firstName,
@@ -283,6 +292,15 @@ class _PlayerProfileEditViewState extends State<PlayerProfileEditView> {
           textController: _emailController,
           hintText: player.email,
           obscure: false,
+          readOnly: true,
+          textColor: AppColors.borderColor,
+          onTap: () {
+            AppToast.show(
+              context,
+              message: 'Email cannot be changed',
+              style: ToastStyle.warning,
+            );
+          },
         ),
         SizedBox(height: 8.h),
         FieldAndValidator(
@@ -299,13 +317,11 @@ class _PlayerProfileEditViewState extends State<PlayerProfileEditView> {
           obscure: false,
         ),
         SizedBox(height: 8.h),
-        AbsorbPointer(
-          child: AppDropDownWidget(
-            validatorName: AppTextStrings.country,
-            label: player.country,
-            dropDownList: countriesList,
-            controller: _countryController,
-          ),
+        AppDropDownWidget(
+          validatorName: AppTextStrings.country,
+          label: player.country,
+          dropDownList: countriesList,
+          controller: _countryController,
         ),
       ],
     );

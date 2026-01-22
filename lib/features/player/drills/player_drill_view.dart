@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:next_kick/common/colors/app_colors.dart';
+import 'package:next_kick/common/widgets/animated_pulsing_image.dart';
 import 'package:next_kick/common/widgets/app_back_button.dart';
 import 'package:next_kick/common/widgets/app_button.dart';
 import 'package:next_kick/common/widgets/app_loading_overlay.dart';
@@ -10,6 +11,7 @@ import 'package:next_kick/common/widgets/empty_state.dart';
 import 'package:next_kick/common/widgets/error_and_reload_widget.dart';
 import 'package:next_kick/common/widgets/pull_to_refresh.dart';
 import 'package:next_kick/common/widgets/shimmer_loading_overlay.dart';
+import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/data/dependency_injector/dependency_injector.dart';
 import 'package:next_kick/data/local_storage/app_local_storage_service.dart';
 import 'package:next_kick/data/models/player_model.dart';
@@ -135,7 +137,11 @@ class _PlayerDrillViewState extends State<PlayerDrillView> {
                 ),
               ],
             ),
-            body: const ShimmerLoadingOverlay(pageType: ShimmerEnum.drills),
+            body: Center(
+              child: AnimatedPulsingImage(
+                imagePath: AppImageStrings.nextKickDarkLogo,
+              ),
+            ),
           );
         }
 
@@ -230,37 +236,46 @@ class _PlayerDrillViewState extends State<PlayerDrillView> {
                         notifierText: 'No drills available',
                         descriptionText:
                             "You don't have any drills at the moment.",
-                            
                       );
                     }
 
                     if (drills != null) {
                       return Form(
                         key: _formKey,
-                        child: PullToRefresh(
-                          onRefresh: () async {
-                            context.read<DrillBloc>().add(FetchPlayerDrills());
-                          },
-                          child: ListView.builder(
-                            itemCount: drills.length,
-                            itemBuilder: (context, index) {
-                              final drill = drills[index];
-                              return DrillWidget(
-                                drill: drill,
-                                onSubmit: (link) {
-                                  if (!drill.canAttempt) {
-                                    AppToast.show(
-                                      context,
-                                      message:
-                                          "You can't submit this drill yet. Complete the previous one first.",
-                                      style: ToastStyle.error,
-                                    );
-                                    return;
-                                  }
-                                  _submitDrillLink(drill.id.toString(), link);
-                                },
+                        child: SingleChildScrollView(
+                          child: PullToRefresh(
+                            onRefresh: () async {
+                              context.read<DrillBloc>().add(
+                                FetchPlayerDrills(),
                               );
                             },
+                            child: StaggeredColumn(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              staggerType: StaggerType.slide,
+                              slideAxis: SlideAxis.vertical,
+                              children: [
+                                for (final drill in drills)
+                                  DrillWidget(
+                                    drill: drill,
+                                    onSubmit: (link) {
+                                      if (!drill.canAttempt) {
+                                        AppToast.show(
+                                          context,
+                                          message:
+                                              "You can't submit this drill yet. Complete the previous one first.",
+                                          style: ToastStyle.error,
+                                        );
+                                        return;
+                                      }
+                                      _submitDrillLink(
+                                        drill.id.toString(),
+                                        link,
+                                      );
+                                    },
+                                  ),
+                              ],
+                            ),
                           ),
                         ),
                       );

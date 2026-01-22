@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.3.0") // adjust if needed
+        classpath("com.android.tools.build:gradle:8.9.1") // adjust if needed
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10") // adjust if needed
         classpath("com.google.gms:google-services:4.4.0") // Firebase Gradle plugin
     }

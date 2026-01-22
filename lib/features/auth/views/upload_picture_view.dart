@@ -7,6 +7,7 @@ import 'package:next_kick/common/colors/app_colors.dart';
 import 'package:next_kick/common/widgets/app_drop_down_widget.dart';
 import 'package:next_kick/common/widgets/app_loading_overlay.dart';
 import 'package:next_kick/common/widgets/app_toast/app_toast.dart';
+import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/data/models/player_model.dart';
 import 'package:next_kick/features/auth/bloc/auth_bloc.dart';
 import 'package:next_kick/features/auth/bloc/auth_event.dart';
@@ -139,8 +140,11 @@ class _UploadPictureViewState extends State<UploadPictureView> {
                     child: IntrinsicHeight(
                       child: Form(
                         key: _formKey,
-                        child: Column(
+                        child: StaggeredColumn(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
+                          staggerType: StaggerType.slide,
+                          slideAxis: SlideAxis.vertical,
                           children: [
                             SizedBox(height: 70.h),
 
@@ -201,7 +205,7 @@ class _UploadPictureViewState extends State<UploadPictureView> {
                               controller: _positionController,
                             ),
 
-                            Spacer(),
+                            SizedBox(height: getScreenHeight(context, 0.015)),
 
                             Align(
                               alignment: Alignment.bottomRight,

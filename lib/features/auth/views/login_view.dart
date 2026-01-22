@@ -7,6 +7,7 @@ import 'package:next_kick/common/widgets/app_loading_overlay.dart';
 import 'package:next_kick/common/widgets/app_toast/app_toast.dart';
 import 'package:next_kick/common/widgets/exit_alert.dart';
 import 'package:next_kick/common/widgets/label_and_text_field.dart';
+import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/features/auth/bloc/auth_bloc.dart';
 import 'package:next_kick/features/auth/bloc/auth_event.dart';
 import 'package:next_kick/features/auth/bloc/auth_state.dart';
@@ -112,9 +113,11 @@ class _LoginViewState extends State<LoginView> {
                     padding: EdgeInsets.all(20.w),
                     child: Form(
                       key: _formKey,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      child: StaggeredColumn(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                staggerType: StaggerType.slide,
+                slideAxis: SlideAxis.vertical,
                         children: [
                           Align(
                             alignment: Alignment.topRight,

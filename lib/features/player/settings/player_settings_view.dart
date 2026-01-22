@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:next_kick/common/colors/app_colors.dart';
 import 'package:next_kick/common/widgets/app_back_button.dart';
+import 'package:next_kick/common/widgets/app_confirmation_dialog.dart';
 import 'package:next_kick/common/widgets/app_settings_button.dart';
 import 'package:next_kick/common/widgets/app_toast/app_toast.dart';
+import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/data/dependency_injector/dependency_injector.dart';
 import 'package:next_kick/data/local_storage/app_local_storage_service.dart';
 import 'package:next_kick/data/models/player_model.dart';
@@ -117,79 +119,96 @@ class _PlayerSettingsViewState extends State<PlayerSettingsView> {
           body: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.all(16.w),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(height: 50.h),
-                  AppSettingsButton(
-                    onButtonPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        NotificationListView.routeName,
-                      );
-                    },
-                    padding: EdgeInsets.symmetric(
-                      vertical: 30.w,
-                      horizontal: 10.w,
+                child: StaggeredColumn(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  staggerType: StaggerType.slide,
+                  slideAxis: SlideAxis.vertical,
+                  children: [
+                    SizedBox(height: 50.h),
+                    AppSettingsButton(
+                      onButtonPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          NotificationListView.routeName,
+                        );
+                      },
+                      padding: EdgeInsets.symmetric(
+                        vertical: 30.w,
+                        horizontal: 10.w,
+                      ),
+                      label: AppTextStrings.notifications,
+                      backgroundColor: AppColors.darkBackButton,
+                      textColor: AppColors.whiteColor,
                     ),
-                    label: AppTextStrings.notifications,
-                    backgroundColor: AppColors.darkBackButton,
-                    textColor: AppColors.whiteColor,
-                  ),
-                  SizedBox(height: 10.h),
-                  AppSettingsButton(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 30.w,
-                      horizontal: 10.w,
+                    SizedBox(height: 10.h),
+                    AppSettingsButton(
+                      padding: EdgeInsets.symmetric(
+                        vertical: 30.w,
+                        horizontal: 10.w,
+                      ),
+
+                      label: AppTextStrings.videoLink,
+                      backgroundColor: AppColors.darkBackButton,
+                      textColor: AppColors.whiteColor,
+
+                      onButtonPressed:
+                          () => _showPerfomanceVideoDialog(context, player),
                     ),
+                    SizedBox(height: 10.h),
+                    AppSettingsButton(
+                      onButtonPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          PlayerProfileEditView.routeName,
+                        );
+                      },
+                      padding: EdgeInsets.symmetric(
+                        vertical: 30.w,
+                        horizontal: 10.w,
+                      ),
 
-                    label: AppTextStrings.videoLink,
-                    backgroundColor: AppColors.darkBackButton,
-                    textColor: AppColors.whiteColor,
-
-                    onButtonPressed:
-                        () => _showPerfomanceVideoDialog(context, player),
-                  ),
-                  SizedBox(height: 10.h),
-                  AppSettingsButton(
-                    onButtonPressed: () {
-                      Navigator.pushNamed(
-                        context,
-                        PlayerProfileEditView.routeName,
-                      );
-                    },
-                    padding: EdgeInsets.symmetric(
-                      vertical: 30.w,
-                      horizontal: 10.w,
+                      label: AppTextStrings.editProfile,
+                      backgroundColor: AppColors.darkBackButton,
+                      textColor: AppColors.whiteColor,
                     ),
+                    SizedBox(height: 10.h),
+                    AppSettingsButton(
+                      onButtonPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.transparent,
+                          builder: (context) {
+                            return AppConfirmationBottomSheet(
+                              title: 'Logout?',
+                              content: 'Are you sure you want to logout?',
+                              confirmText: 'Logout',
+                              onConfirm: () async {
+                                await getIt<AppLocalStorageService>().logout();
+                                if (context.mounted) {
+                                  Navigator.pushNamedAndRemoveUntil(
+                                    context,
+                                    LoginView.routeName,
+                                    (Route<dynamic> route) => false,
+                                  );
+                                }
+                              },
+                            );
+                          },
+                        );
+                      },
+                      padding: EdgeInsets.symmetric(
+                        vertical: 30.w,
+                        horizontal: 10.w,
+                      ),
 
-                    label: AppTextStrings.editProfile,
-                    backgroundColor: AppColors.darkBackButton,
-                    textColor: AppColors.whiteColor,
-                  ),
-                  SizedBox(height: 10.h),
-                  AppSettingsButton(
-                    onButtonPressed: () async {
-                      await getIt<AppLocalStorageService>().logout();
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        LoginView.routeName,
-                        (Route<dynamic> route) => false,
-                      );
-                    },
-                    padding: EdgeInsets.symmetric(
-                      vertical: 30.w,
-                      horizontal: 10.w,
+                      label: AppTextStrings.logout,
+                      backgroundColor: AppColors.darkBackButton,
+                      textColor: AppColors.whiteColor,
                     ),
-
-                    label: AppTextStrings.logout,
-                    backgroundColor: AppColors.darkBackButton,
-                    textColor: AppColors.whiteColor,
-                  ),
-                  SizedBox(height: 10.h),
-                ],
-              ),
+                    SizedBox(height: 10.h),
+                  ],
+                ),
             ),
           ),
         );

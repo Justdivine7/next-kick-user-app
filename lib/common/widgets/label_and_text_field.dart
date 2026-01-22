@@ -16,6 +16,10 @@ class LabelAndTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final Color? errorColor;
   final BorderSide? errorBorder;
+  final bool readOnly;
+  final VoidCallback? onTap;
+  final Color? textColor;
+
   const LabelAndTextField({
     super.key,
     required this.label,
@@ -29,6 +33,9 @@ class LabelAndTextField extends StatelessWidget {
     this.keyboardType,
     this.errorColor,
     this.errorBorder,
+    this.readOnly = false,
+    this.onTap,
+    this.textColor,
   });
 
   @override
@@ -45,6 +52,9 @@ class LabelAndTextField extends StatelessWidget {
         SizedBox(height: getScreenHeight(context, 0.008)),
 
         AppTextFormField(
+          readOnly: readOnly,
+          onTap: onTap,
+          textColor: textColor,
           validator: validator,
           hintText: hintText,
           textController: textController,

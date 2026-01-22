@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:next_kick/common/colors/app_colors.dart';
+import 'package:next_kick/common/widgets/animated_pulsing_image.dart';
 import 'package:next_kick/common/widgets/app_back_button.dart';
 import 'package:next_kick/common/widgets/error_and_reload_widget.dart';
 import 'package:next_kick/common/widgets/next_kick_dark_background.dart';
 import 'package:next_kick/common/widgets/pull_to_refresh.dart';
-import 'package:next_kick/common/widgets/shimmer_loading_overlay.dart';
+import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/features/team/dashboard/team_dashboard_view.dart';
 import 'package:next_kick/features/team/tournament/bloc/tournament_bloc.dart';
 import 'package:next_kick/features/team/tournament/widgets/tournament_name_and_location_registration_widget.dart';
+import 'package:next_kick/utilities/constants/app_image_strings.dart';
 import 'package:next_kick/utilities/constants/app_text_strings.dart';
-import 'package:next_kick/utilities/constants/enums/shimmer_enum.dart';
 import 'package:next_kick/utilities/extensions/app_extensions.dart';
 
 class TeamTournamentListView extends StatefulWidget {
@@ -58,8 +59,10 @@ class _TeamTournamentListViewState extends State<TeamTournamentListView> {
                 },
               ),
             ),
-            body: NextKickDarkBackground(
-              child: ShimmerLoadingOverlay(pageType: ShimmerEnum.notification),
+            body: Center(
+              child: AnimatedPulsingImage(
+                imagePath: AppImageStrings.manLogo,
+              ),
             ),
           );
         }
@@ -147,19 +150,18 @@ class _TeamTournamentListViewState extends State<TeamTournamentListView> {
                             ),
                           ),
                           SizedBox(height: 30),
-                          ListView.separated(
-                            separatorBuilder: (_, _) => SizedBox(height: 30),
-
-                            physics: NeverScrollableScrollPhysics(),
-
-                            shrinkWrap: true,
-                            itemCount: tournaments.length,
-                            itemBuilder: (context, index) {
-                              final tournament = tournaments[index];
-                              return TournamentNameAndLocationRegistrationWidget(
-                                tournament: tournament,
-                              );
-                            },
+                          StaggeredColumn(
+                            staggerType: StaggerType.slide,
+                            slideAxis: SlideAxis.vertical,
+                            children: [
+                              for (final tournament in tournaments) ...[
+                                TournamentNameAndLocationRegistrationWidget(
+                                  tournament: tournament,
+                                ),
+                                if (tournament != tournaments.last)
+                                  SizedBox(height: 30),
+                              ],
+                            ],
                           ),
                         ],
                       ),
@@ -179,7 +181,11 @@ class _TeamTournamentListViewState extends State<TeamTournamentListView> {
             toolbarHeight: 40,
             leading: const AppBackButton(),
           ),
-          body: ShimmerLoadingOverlay(pageType: ShimmerEnum.notification),
+          body: Center(
+            child: AnimatedPulsingImage(
+              imagePath: AppImageStrings.nextKickDarkLogo,
+            ),
+          ),
         );
       },
     );

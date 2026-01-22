@@ -8,6 +8,7 @@ import 'package:next_kick/common/widgets/app_back_button.dart';
 import 'package:next_kick/common/widgets/app_toast/app_toast.dart';
 import 'package:next_kick/common/widgets/error_and_reload_widget.dart';
 import 'package:next_kick/common/widgets/pull_to_refresh.dart';
+import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/common/widgets/video_webview_page.dart';
 import 'package:next_kick/data/dependency_injector/dependency_injector.dart';
 import 'package:next_kick/data/local_storage/app_local_storage_service.dart';
@@ -110,8 +111,11 @@ class _PlayerProfileViewState extends State<PlayerProfileView> {
         physics: AlwaysScrollableScrollPhysics(),
         child: Padding(
           padding: EdgeInsets.all(16.w),
-          child: Column(
+          child: StaggeredColumn(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
+            staggerType: StaggerType.slide,
+            slideAxis: SlideAxis.vertical,
             children: [
               SizedBox(height: 20.h),
 

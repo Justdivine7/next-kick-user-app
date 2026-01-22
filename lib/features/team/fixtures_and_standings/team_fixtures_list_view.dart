@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:next_kick/common/colors/app_colors.dart';
+import 'package:next_kick/common/widgets/animated_pulsing_image.dart';
 import 'package:next_kick/common/widgets/app_back_button.dart';
 import 'package:next_kick/common/widgets/error_and_reload_widget.dart';
 import 'package:next_kick/common/widgets/next_kick_light_background.dart';
 import 'package:next_kick/common/widgets/pull_to_refresh.dart';
-import 'package:next_kick/common/widgets/shimmer_loading_overlay.dart';
+import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/features/team/fixtures_and_standings/bloc/fixtures_bloc.dart';
 import 'package:next_kick/features/team/fixtures_and_standings/widget/fixture_card.dart';
 import 'package:next_kick/utilities/constants/app_image_strings.dart';
 import 'package:next_kick/utilities/constants/app_text_strings.dart';
-import 'package:next_kick/utilities/constants/enums/shimmer_enum.dart';
 import 'package:next_kick/utilities/extensions/app_extensions.dart';
 
 class TeamFixturesListView extends StatefulWidget {
@@ -47,7 +47,11 @@ class _TeamFixturesListViewState extends State<TeamFixturesListView> {
               toolbarHeight: 40,
               leading: const AppBackButton(),
             ),
-            body: ShimmerLoadingOverlay(pageType: ShimmerEnum.notification),
+            body: Center(
+              child: AnimatedPulsingImage(
+                imagePath: AppImageStrings.nextKickDarkLogo
+              ),
+            ),
           );
         }
         if (fixtureState is FetchFixturesError) {
@@ -113,9 +117,11 @@ class _TeamFixturesListViewState extends State<TeamFixturesListView> {
                 onRefresh: _loadFixtures,
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
-                  child: Column(
+                  child: StaggeredColumn(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
+                    staggerType: StaggerType.slide,
+                    slideAxis: SlideAxis.vertical,
                     children: [
                       SizedBox(height: 20.h),
 
@@ -129,21 +135,14 @@ class _TeamFixturesListViewState extends State<TeamFixturesListView> {
                         ),
                       ),
                       SizedBox(height: 20.h),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: fixtures.length,
-                        itemBuilder: (context, index) {
-                          final f = fixtures[index];
-                          return FixtureCard(
-                            teamA: f.teamOneName,
-                            teamB: f.teamTwoName,
-                            date: f.matchDate,
-                            time: f.matchTime,
-                            venue: f.venue,
-                          );
-                        },
-                      ),
+                      for (final f in fixtures)
+                        FixtureCard(
+                          teamA: f.teamOneName,
+                          teamB: f.teamTwoName,
+                          date: f.matchDate,
+                          time: f.matchTime,
+                          venue: f.venue,
+                        ),
                     ],
                   ),
                 ),
@@ -160,7 +159,11 @@ class _TeamFixturesListViewState extends State<TeamFixturesListView> {
             toolbarHeight: 40,
             leading: const AppBackButton(),
           ),
-          body: ShimmerLoadingOverlay(pageType: ShimmerEnum.notification),
+          body: Center(
+            child: AnimatedPulsingImage(
+              imagePath: AppImageStrings.nextKickDarkLogo,
+            ),
+          ),
         );
       },
     );

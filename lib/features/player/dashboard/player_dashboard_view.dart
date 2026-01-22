@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:next_kick/common/widgets/exit_alert.dart';
 import 'package:next_kick/common/widgets/pull_to_refresh.dart';
+import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/data/dependency_injector/dependency_injector.dart';
 import 'package:next_kick/data/local_storage/app_local_storage_service.dart';
 import 'package:next_kick/data/models/player_model.dart';
@@ -70,51 +71,46 @@ class _PlayerDashboardViewState extends State<PlayerDashboardView> {
                   _player.value = state.user;
                 }
               },
-              child: PullToRefresh(
-                onRefresh: _refreshData,
-                child: ListView(
-                  padding: EdgeInsets.all(16.w),
-                  children: [
-                    SizedBox(height: 20.h),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: SizedBox(
-                        height: 40.h,
-                        child: Image.asset(
-                          AppImageStrings.mainLightLogo,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 30.h),
-                    ValueListenableBuilder(
+              child: SingleChildScrollView(
+                child: PullToRefresh(
+                  onRefresh: _refreshData,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: ValueListenableBuilder(
                       valueListenable: _player,
                       builder: (context, player, _) {
-                        return AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 400),
-                          switchInCurve: Curves.easeIn,
-                          switchOutCurve: Curves.easeOut,
-                          child:
-                              player == null
-                                  ? const Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                  : Column(
-                                    key: ValueKey(player.playerId),
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      DashboardUserDetails(player: player),
-                                      SizedBox(height: 6.h),
-                                      DashboardCards(
-                                        dashboardList: playerDashboardCards,
-                                      ),
-                                    ],
-                                  ),
+                        return StaggeredColumn(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          staggerType: StaggerType.slide,
+                          slideAxis: SlideAxis.vertical,
+                          children: [
+                            SizedBox(height: 20.h),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: SizedBox(
+                                height: 40.h,
+                                child: Image.asset(
+                                  AppImageStrings.mainLightLogo,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 30.h),
+                            if (player == null)
+                              const Center(child: CircularProgressIndicator())
+                            else ...[
+                              DashboardUserDetails(player: player),
+                              SizedBox(height: 6.h),
+                              DashboardCards(
+                                dashboardList: playerDashboardCards,
+                              ),
+                            ],
+                          ],
                         );
                       },
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

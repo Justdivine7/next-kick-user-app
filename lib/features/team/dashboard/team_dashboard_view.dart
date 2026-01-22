@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:next_kick/common/colors/app_colors.dart';
 import 'package:next_kick/common/widgets/exit_alert.dart';
 import 'package:next_kick/common/widgets/next_kick_dark_background.dart';
+import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/data/dependency_injector/dependency_injector.dart';
 import 'package:next_kick/data/local_storage/app_local_storage_service.dart';
 import 'package:next_kick/data/models/team_model.dart';
@@ -57,37 +58,37 @@ class _TeamDashboardViewState extends State<TeamDashboardView> {
           child: SafeArea(
             child: Padding(
               padding: EdgeInsets.all(16.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-
-                children: [
-                  SizedBox(height: 30.h),
-
-                  SizedBox(
-                    height: 40.h,
-                    child: Image.asset(
-                      AppImageStrings.mainLightLogo,
-                      fit: BoxFit.contain,
+                child: StaggeredColumn(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  staggerType: StaggerType.slide,
+                  slideAxis: SlideAxis.vertical,
+                  children: [
+                    SizedBox(height: 30.h),
+                    SizedBox(
+                      height: 40.h,
+                      child: Image.asset(
+                        AppImageStrings.mainLightLogo,
+                        fit: BoxFit.contain,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 30.h),
-                  Text(
-                    '${AppTextStrings.hello} ${_team.value?.teamName.capitalizeFirstLetter()}',
-                    style: context.textTheme.headlineMedium?.copyWith(
-                      color: AppColors.whiteColor,
+                    SizedBox(height: 30.h),
+                    Text(
+                      '${AppTextStrings.hello} ${_team.value?.teamName.capitalizeFirstLetter()}',
+                      style: context.textTheme.headlineMedium?.copyWith(
+                        color: AppColors.whiteColor,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 6.h),
-                  Text(
-                    '${AppTextStrings.location}: ${_team.value?.location.capitalizeFirstLetter()}',
-                    style: context.textTheme.titleLarge?.copyWith(
-                      color: AppColors.whiteColor,
+                    SizedBox(height: 6.h),
+                    Text(
+                      '${AppTextStrings.location}: ${_team.value?.location.capitalizeFirstLetter()}',
+                      style: context.textTheme.titleLarge?.copyWith(
+                        color: AppColors.whiteColor,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 20.h),
-                  DashboardCards(dashboardList: teamDashboardCards),
-                ],
-              ),
+                    SizedBox(height: 20.h),
+                    DashboardCards(dashboardList: teamDashboardCards),
+                  ],
+                ),
             ),
           ),
         ),

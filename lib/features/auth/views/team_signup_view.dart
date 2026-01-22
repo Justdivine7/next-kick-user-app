@@ -12,6 +12,7 @@ import 'package:next_kick/common/widgets/app_toast/app_toast.dart';
 import 'package:next_kick/common/widgets/dark_background.dart';
 import 'package:next_kick/common/widgets/field_and_validator.dart';
 import 'package:next_kick/common/widgets/password_field_widget.dart';
+import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/data/models/team_model.dart';
 import 'package:next_kick/features/auth/bloc/auth_bloc.dart';
 import 'package:next_kick/features/auth/bloc/auth_event.dart';
@@ -143,9 +144,11 @@ class _TeamSignupViewState extends State<TeamSignupView> {
                 padding: EdgeInsets.all(20),
                 child: Form(
                   key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: StaggeredColumn(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    staggerType: StaggerType.slide,
+                    slideAxis: SlideAxis.vertical,
                     children: [
                       SizedBox(height: getScreenHeight(context, 0.13)),
 
@@ -159,8 +162,8 @@ class _TeamSignupViewState extends State<TeamSignupView> {
                           ),
                         ),
                       ),
-                      Stack(
-                        alignment: Alignment.bottomRight,
+                      SizedBox(height: 20),
+                      Row(
                         children: [
                           ValueListenableBuilder<File?>(
                             valueListenable: _teamLogo,
@@ -177,11 +180,16 @@ class _TeamSignupViewState extends State<TeamSignupView> {
                               );
                             },
                           ),
-                          GestureDetector(
-                            onTap: () => ImagePickerHelper.pickInto(_teamLogo),
-                            child: const Icon(
-                              Icons.add_a_photo_outlined,
-                              color: AppColors.whiteColor,
+                          SizedBox(width: 10),
+                          SizedBox(
+                            width: getScreenWidth(context, 0.3),
+                            child: AppButton(
+                              onButtonPressed:
+                                  () => ImagePickerHelper.pickInto(_teamLogo),
+                            
+                              label: 'Add image',
+                              backgroundColor: AppColors.whiteColor,
+                              textColor: AppColors.darkButtonColor,
                             ),
                           ),
                         ],

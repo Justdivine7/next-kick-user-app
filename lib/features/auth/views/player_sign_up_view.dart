@@ -4,6 +4,7 @@ import 'package:next_kick/common/colors/app_colors.dart';
 import 'package:next_kick/common/widgets/app_toast/app_toast.dart';
 import 'package:next_kick/common/widgets/field_and_validator.dart';
 import 'package:next_kick/common/widgets/password_field_widget.dart';
+import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/data/models/player_model.dart';
 import 'package:next_kick/data/models/upload_picture_args.dart';
 import 'package:next_kick/features/auth/views/login_view.dart';
@@ -105,11 +106,13 @@ class _PlayerSignUpViewState extends State<PlayerSignUpView> {
             padding: const EdgeInsets.all(20),
             child: Form(
               key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: StaggeredColumn(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                staggerType: StaggerType.slide,
+                slideAxis: SlideAxis.vertical,
                 children: [
-                  SizedBox(height: getScreenHeight(context, 0.13)),
+                  // SizedBox(height: getScreenHeight(context, 0.13)),
 
                   Center(
                     child: Text(

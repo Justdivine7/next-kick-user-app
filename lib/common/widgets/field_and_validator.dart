@@ -9,6 +9,9 @@ class FieldAndValidator extends StatelessWidget {
   final String? hintText;
   final TextInputType? keyboardType;
   final bool isEmail;
+  final bool readOnly;
+  final VoidCallback? onTap;
+  final Color? textColor;
 
   const FieldAndValidator({
     super.key,
@@ -18,11 +21,17 @@ class FieldAndValidator extends StatelessWidget {
     this.hintText,
     this.keyboardType,
     this.isEmail = false,
+    this.readOnly = false,
+    this.onTap,
+    this.textColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return LabelAndTextField(
+      readOnly: readOnly,
+      onTap: onTap,
+      textColor: textColor,
       label: fieldName,
 
       textController: textController,

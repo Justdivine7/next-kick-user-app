@@ -99,11 +99,11 @@ class _ShimmerLoadingOverlayState extends State<ShimmerLoadingOverlay> {
     );
   }
 
-  Widget _buildShimmerCircle(double size, int delay) {
-    return FadeShimmer.round(
-      size: size,
-      fadeTheme: widget.isDarkMode ? FadeTheme.dark : FadeTheme.light,
-      millisecondsDelay: delay,
-    );
-  }
+  // Widget _buildShimmerCircle(double size, int delay) {
+  //   return FadeShimmer.round(
+  //     size: size,
+  //     fadeTheme: widget.isDarkMode ? FadeTheme.dark : FadeTheme.light,
+  //     millisecondsDelay: delay,
+  //   );
+  // }
 }

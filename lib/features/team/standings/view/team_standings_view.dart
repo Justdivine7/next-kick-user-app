@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:next_kick/common/colors/app_colors.dart';
+import 'package:next_kick/common/widgets/animated_pulsing_image.dart';
 import 'package:next_kick/common/widgets/app_back_button.dart';
 import 'package:next_kick/common/widgets/next_kick_light_background.dart';
-import 'package:next_kick/common/widgets/shimmer_loading_overlay.dart';
+ import 'package:next_kick/common/widgets/staggered_column.dart';
 import 'package:next_kick/data/dependency_injector/dependency_injector.dart';
 import 'package:next_kick/data/local_storage/app_local_storage_service.dart';
 import 'package:next_kick/data/web_socket/standings_web_socket_service.dart';
 import 'package:next_kick/features/team/standings/bloc/standings_bloc.dart';
 import 'package:next_kick/utilities/constants/app_image_strings.dart';
-import 'package:next_kick/utilities/constants/enums/shimmer_enum.dart';
-import 'package:next_kick/utilities/extensions/app_extensions.dart';
+ import 'package:next_kick/utilities/extensions/app_extensions.dart';
 
 class TeamStandingsView extends StatefulWidget {
   static const routeName = '/team_stadings';
@@ -58,7 +58,11 @@ class _TeamStandingsViewState extends State<TeamStandingsView>
               toolbarHeight: 40.h,
               leading: AppBackButton(),
             ),
-            body: ShimmerLoadingOverlay(pageType: ShimmerEnum.notification),
+            body: Center(
+              child: AnimatedPulsingImage(
+                imagePath: AppImageStrings.nextKickDarkLogo,
+              ),
+            ),
           );
         }
 
@@ -132,38 +136,41 @@ class _TeamStandingsViewState extends State<TeamStandingsView>
                                     ),
                                   ],
                                 )
-                                : ListView.separated(
-                                  separatorBuilder:
-                                      (_, __) => SizedBox(height: 16),
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: standings.length,
-                                  itemBuilder: (context, index) {
-                                    final standing = standings[index];
-                                    return Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            standing.teamName
-                                                .capitalizeFirstLetter(),
+                                : StaggeredColumn(
+                                  staggerType: StaggerType.slide,
+                                  slideAxis: SlideAxis.vertical,
+                                  children: [
+                                    for (final standing in standings) ...[
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              standing.teamName
+                                                  .capitalizeFirstLetter(),
+                                              style: context
+                                                  .textTheme
+                                                  .titleLarge
+                                                  ?.copyWith(
+                                                    color:
+                                                        AppColors.boldTextColor,
+                                                  ),
+                                            ),
+                                          ),
+                                          SizedBox(width: 20),
+                                          Text(
+                                            standing.points.toString(),
                                             style: context.textTheme.titleLarge
                                                 ?.copyWith(
                                                   color:
                                                       AppColors.boldTextColor,
                                                 ),
                                           ),
-                                        ),
-                                        SizedBox(width: 20),
-                                        Text(
-                                          standing.points.toString(),
-                                          style: context.textTheme.titleLarge
-                                              ?.copyWith(
-                                                color: AppColors.boldTextColor,
-                                              ),
-                                        ),
-                                      ],
-                                    );
-                                  },
+                                        ],
+                                      ),
+                                      if (standing != standings.last)
+                                        SizedBox(height: 16),
+                                    ],
+                                  ],
                                 ),
                       ),
                     ],

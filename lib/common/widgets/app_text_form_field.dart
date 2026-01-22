@@ -12,12 +12,14 @@ class AppTextFormField extends StatelessWidget {
   final Color? focusedBorderColor;
   final Color? enabledBorderColor;
   final Color? hintColor;
-  final TextEditingController textController;
-  final bool obscure;
-  final String? Function(String?)? validator;
-  final TextInputType? keyboardType;
   final Color? errorColor;
+  final TextEditingController textController;
+  final bool readOnly;
+  final bool obscure;
   final BorderSide? errorBorder;
+  final VoidCallback? onTap;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
   const AppTextFormField({
     super.key,
     required this.hintText,
@@ -36,11 +38,15 @@ class AppTextFormField extends StatelessWidget {
     this.keyboardType,
     this.errorColor,
     this.errorBorder,
+    this.readOnly = false,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly,
+      onTap: onTap,
       validator: validator,
       controller: textController,
       style: TextStyle(color: textColor ?? AppColors.darkBackButton),
@@ -71,9 +77,7 @@ class AppTextFormField extends StatelessWidget {
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide:
-              errorBorder ??
-              BorderSide(color: AppColors.solidOrange), 
+          borderSide: errorBorder ?? BorderSide(color: AppColors.solidOrange),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.appPrimaryColor),
