@@ -1,16 +1,75 @@
-# next_kick
+NextKick ⚽
 
-A new Flutter project.
+NextKick is a football-focused mobile application designed to support players and teams with the tools they need to train better, compete smarter, and stay informed.
 
-## Getting Started
+The platform provides a tailored experience depending on how a user signs up — either as an individual player or as a team.
 
-This project is a starting point for a Flutter application.
+🚀 What Problem NextKick Solves
 
-A few resources to get you started if this is your first Flutter project:
+Football development is often fragmented:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Players struggle to find structured, progressive training drills.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Teams lack a central place to track tournaments, fixtures, and standings.
+
+Information is scattered across different platforms.
+
+NextKick brings these needs into one focused ecosystem.
+
+👥 User Types & Features
+🧑‍🎓 Players
+
+Players can sign up as individuals to:
+
+Access football training drills and exercises
+
+Improve technical skills, fitness, and match readiness
+
+Follow structured training content curated for player development
+
+This is designed to support players at different stages of growth.
+
+🏟️ Teams
+
+Teams can sign up to:
+
+View available tournaments
+
+Track tournament standings
+
+Stay updated on competitive opportunities
+
+Monitor performance contextually within competitions
+
+This helps teams stay organized and competitive without relying on scattered sources.
+
+🧠 Core Principles
+
+Role-based experience: Players and teams only see what matters to them.
+
+Simplicity: Clear navigation and focused features.
+
+Growth-oriented: Built to support football development, not just information display.
+
+🛠️ Tech Stack
+
+Flutter – Cross-platform mobile development
+
+REST APIs – Backend communication
+
+GitHub – Version control and collaboration
+
+📱 Platform Support
+
+Android
+
+iOS 
+
+📌 Project Status
+
+This project is under active development. Features and functionality will evolve based on user feedback and real-world usage.
+
+
+📄 License
+
+This project is proprietary.
